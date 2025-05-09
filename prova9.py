@@ -1,3 +1,5 @@
+import flet as ft
+
 def main(pagina: ft.Page):
     pagina.title = "Formulário de Contato"
 
