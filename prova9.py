@@ -1,32 +1,23 @@
 import flet as ft
 
-def main(pagina: ft.Page):
-    pagina.title = "Formulário de Contato"
+def main(page: ft.Page):
+    page.title = "Lista de Tarefas"
+    tarefas = ft.Column()  # Container para exibir as tarefas
 
-    campo_nome = ft.TextField(label="Nome", width=400)
-    campo_email = ft.TextField(label="E-mail", width=400)
-    campo_mensagem = ft.TextField(label="Mensagem", multiline=True, min_lines=3, max_lines=5, width=400)
+    campo_tarefa = ft.TextField(label="Digite uma tarefa", expand=True)
 
-    texto_confirmacao = ft.Text("", color="green")
+    def adicionar_tarefa(e):
+        if campo_tarefa.value.strip() != "":
+            tarefas.controls.append(ft.Text(campo_tarefa.value))
+            campo_tarefa.value = ""
+            page.update()
 
-    def enviar_formulario(e):
-        if campo_nome.value and campo_email.value and campo_mensagem.value:
-            texto_confirmacao.value = "Formulário enviado com sucesso!"
-            campo_nome.value = ""
-            campo_email.value = ""
-            campo_mensagem.value = ""
-        else:
-            texto_confirmacao.value = "Por favor, preencha todos os campos."
-        pagina.update()
+    botao_adicionar = ft.ElevatedButton(text="Adicionar", on_click=adicionar_tarefa)
 
-    botao_enviar = ft.ElevatedButton(text="Enviar", on_click=enviar_formulario)
-
-    pagina.add(
-        campo_nome,
-        campo_email,
-        campo_mensagem,
-        botao_enviar,
-        texto_confirmacao
+    page.add(
+        ft.Row([campo_tarefa, botao_adicionar]),
+        tarefas
     )
 
 ft.app(target=main)
+
